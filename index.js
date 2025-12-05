@@ -7,9 +7,13 @@ document.addEventListener('click', function(e){
     }
     else if(e.target.dataset.retweet){
         handleRetweetClick(e.target.dataset.retweet)
+
     }
     else if(e.target.dataset.reply){
-        handleReplyClick(e.target.dataset.reply)
+        if(e.target.dataset.reply) {
+            handleReplyTweet(e.target.dataset.reply)
+            handleReplyClick(e.target.dataset.reply)
+        }
     }
     else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
@@ -44,6 +48,23 @@ function handleRetweetClick(tweetId){
     }
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
     render() 
+}
+function handleReplyTweet(tweetId){
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+})[0]
+        document.getElementById('tweet-input').focus()
+        tweetsData.forEach(function(tweets) {
+            if(tweets.uuid === tweetId) {
+                tweets.replies.unshift({
+                    handle: `@Scrimba`,
+                    profilePic: `images/tcruise.png`,
+                    tweetText: document.getElementById('tweet-input').value
+                })
+            render()
+            }
+    })
+        document.getElementById('tweet-input').value = ``
 }
 
 function handleReplyClick(replyId){
